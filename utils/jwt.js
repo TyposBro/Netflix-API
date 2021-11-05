@@ -5,7 +5,7 @@ const verify = promisify(jwt.verify);
 
 export const verifyToken = async (req, res, next) => {
   const authHeader = req.headers.token;
-  console.log(req.headers.token);
+
   if (!authHeader) {
     return res.status(403).json({
       message: "No token provided",
