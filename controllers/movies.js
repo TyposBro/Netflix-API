@@ -47,7 +47,6 @@ export const getRandomMovie = async (req, res) => {
 
 // CREATE
 export const createMovie = async (req, res) => {
-  console.log("qwerty");
   if (req.user.isAdmin) {
     const newMovie = new MovieSchema(req.body);
     try {
