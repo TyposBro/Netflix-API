@@ -17,6 +17,7 @@ const router = Router();
 router.get("/", getAllMovies);
 router.get("/find", verifyToken, getMovie);
 router.get("/find/:id", getMovieById);
+
 router.get("/random", verifyToken, getRandomMovie);
 // router.get("/stats", verifyToken, getStats);
 
