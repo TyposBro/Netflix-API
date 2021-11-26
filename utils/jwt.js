@@ -1,7 +1,5 @@
 import jwt from "jsonwebtoken";
 
-const verify = promisify(jwt.verify);
-
 export const verifyToken = (req, res, next) => {
   const authHeader = req.headers.token;
 
