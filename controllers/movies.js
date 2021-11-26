@@ -14,7 +14,9 @@ export const getMovie = async (req, res) => {
 export const getMovieById = async (req, res) => {
   // async function
   try {
+    // console.log(req.params.id);
     const movie = await MovieSchema.findById(req.params.id);
+    // console.log(movie);
     res.json(movie);
   } catch (error) {
     res.json({ message: error });
@@ -39,7 +41,7 @@ export const getRandomMovie = async (req, res) => {
       { $sample: { size: 1 } },
     ]);
 
-    res.status(200).json(movie);
+    res.status(200).json(movie[0]);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
