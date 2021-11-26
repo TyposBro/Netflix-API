@@ -68,6 +68,7 @@ export const getList = async (req, res) => {
     } else {
       list = await ListSchema.aggregate([{ $sample: { size: 10 } }]);
     }
+    console.log(list);
     res.status(200).json(list);
   } catch (error) {
     res.json({ message: error });

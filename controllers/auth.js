@@ -19,7 +19,6 @@ export const register = async (req, res) => {
     password: encryptedPassword,
     isAdmin,
   });
-  console.log(newUser);
   try {
     const user = await newUser.save();
     res.status(201).json({ user, message: "User created successfully" });
@@ -31,7 +30,6 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { username, email, password } = req.body;
-
     const user = await User.findOne({ $or: [{ username }, { email }] }).exec();
     if (!user) {
       return res.status(401).json({ message: "User not found" });
