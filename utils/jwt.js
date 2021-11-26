@@ -1,9 +1,8 @@
 import jwt from "jsonwebtoken";
-import { promisify } from "es6-promisify";
 
 const verify = promisify(jwt.verify);
 
-export const verifyToken = async (req, res, next) => {
+export const verifyToken = (req, res, next) => {
   const authHeader = req.headers.token;
 
   if (!authHeader) {
@@ -13,7 +12,7 @@ export const verifyToken = async (req, res, next) => {
   }
 
   try {
-    const user = await verify(authHeader, process.env.PRIVATE_KEY);
+    const user = jwt.verify(authHeader, process.env.PRIVATE_KEY);
     req.user = user;
     return next();
   } catch (error) {
