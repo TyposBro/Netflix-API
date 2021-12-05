@@ -3,6 +3,11 @@ import validateEmail from "../utils/validateEmail.js";
 
 const UserSchema = new mongoose.Schema(
   {
+    fullname: {
+      type: String,
+      minlength: 3,
+      maxlength: 50,
+    },
     username: {
       type: String,
       required: true,
