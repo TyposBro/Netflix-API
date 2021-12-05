@@ -1,13 +1,14 @@
 import User from "../models/User.js";
 import CryptoJS from "crypto-js";
 import jwt from "jsonwebtoken";
+import { checkAdmin } from "../utils/checkAdmin.js";
 
 //  TODO: Validate user input
 
 export const register = async (req, res) => {
-  const { username, email, password } = req.body;
+  let { username, email, password, fullname, isAdmin } = req.body;
 
-  const isAdmin = password === process.env.PRIVATE_KEY ? true : false;
+  isAdmin = checkAdmin(req);
 
   const encryptedPassword = CryptoJS.AES.encrypt(
     password,
@@ -16,12 +17,20 @@ export const register = async (req, res) => {
   const newUser = new User({
     username,
     email,
+    fullname,
     password: encryptedPassword,
     isAdmin,
   });
   try {
     const user = await newUser.save();
-    res.status(201).json({ user, message: "User created successfully" });
+    const token = jwt.sign(
+      { id: user._id, isAdmin: user.isAdmin },
+      process.env.PRIVATE_KEY,
+      { expiresIn: "1d" }
+    );
+
+    const { pwd, ...info } = user._doc;
+    res.status(201).json({ info, token, message: "User created successfully" });
   } catch (error) {
     res.status(500).send(error);
   }
