@@ -14,9 +14,8 @@ export const getMovie = async (req, res) => {
 export const getMovieById = async (req, res) => {
   // async function
   try {
-    // console.log(req.params.id);
     const movie = await MovieSchema.findById(req.params.id);
-    // console.log(movie);
+
     res.json(movie);
   } catch (error) {
     res.json({ message: error });
