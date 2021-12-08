@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
 import compression from "compression";
+import helmet from "helmet";
 
 import router from "./routes/Router.js";
 const app = express();
@@ -20,6 +21,7 @@ mongoose
     console.log(err);
   });
 
+app.use(helmet());
 app.use(express.json());
 app.use(cors());
 app.use(compression());
