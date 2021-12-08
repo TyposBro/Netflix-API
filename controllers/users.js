@@ -18,15 +18,7 @@ export const getUser = async (req, res) => {
 // UPDATE
 export const updateUser = async (req, res) => {
   if (req.user.id === req.params.id || req.user.isAdmin) {
-    console.log(req.body.password);
-    if (req.body.password) {
-      console.log("Inside req.body.password");
-
-      req.body.password = CryptoJS.AES.encrypt(
-        req.body.password,
-        process.env.PRIVATE_KEY
-      ).toString();
-    }
+    req.body.password = await get_pwd(req, res);
     try {
       const { password, ...info } = await User.findByIdAndUpdate(
         req.params.id,
@@ -105,5 +97,17 @@ export const getStats = async (req, res) => {
     return res.status(200).json(data);
   } catch (error) {
     return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+const get_pwd = async (req, res) => {
+  try {
+    const { password } = await User.findOne({
+      $or: [{ email: req.body.email }, { username: req.body.username }],
+    });
+
+    return password;
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
