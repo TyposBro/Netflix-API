@@ -2,9 +2,9 @@ export const extract = (users) => {
   let list = [];
   for (let i = 0; i < users.length; i++) {
     const user = users[i];
-    delete user.password;
+    const { password, ...info } = user._doc;
 
-    list = [...list, user];
+    list = [...list, info];
   }
   return list;
 };
