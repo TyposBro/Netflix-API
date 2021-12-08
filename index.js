@@ -22,6 +22,6 @@ mongoose
 app.use(express.json());
 app.use(cors());
 app.use("/api", router);
-app.listen(3001, () => {
+app.listen(process.env.PORT || 3001, () => {
   console.log("Server's Running");
 });
