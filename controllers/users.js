@@ -1,6 +1,6 @@
 import User from "../models/User.js";
 import CryptoJS from "crypto-js";
-
+import { extract } from "../utils/extract_pwd.js";
 // GET USER
 export const getUser = async (req, res) => {
   try {
@@ -18,14 +18,18 @@ export const getUser = async (req, res) => {
 // UPDATE
 export const updateUser = async (req, res) => {
   if (req.user.id === req.params.id || req.user.isAdmin) {
-    // if (req.body.password) {
-    //   req.body.password = CryptoJS.AES.encrypt(
-    //     req.body.password,
-    //     process.env.PRIVATE_KEY
-    //   ).toString();
-    // }
+    console.log(req.body.password);
+    if (req.body.password) {
+      console.log("Inside req.body.password");
+
+      req.body.password = CryptoJS.AES.encrypt(
+        req.body.password,
+        process.env.PRIVATE_KEY
+      ).toString();
+    }
     try {
       const info = await User.findByIdAndUpdate(req.params.id, req.body);
+      delete info.password;
       res.status(200).json(info);
     } catch (error) {
       return res.status(500).json({ message: "Internal Server Error" });
@@ -64,7 +68,9 @@ export const getList = async (req, res) => {
       const users = query
         ? await User.find().sort({ _id: -1 }).limit(5)
         : await User.find();
-      res.status(200).json(users);
+
+      const send = extract(users);
+      res.status(200).json(send);
     } catch (error) {
       return res.status(500).json({ message: "Internal Server Error" });
     }
@@ -76,7 +82,7 @@ export const getList = async (req, res) => {
 // GET USER STATS
 export const getStats = async (req, res) => {
   const today = new Date();
-  const lastYear = today.setFullYear(today.getFullYear() - 1);
+  // const lastYear = today.setFullYear(today.getFullYear() - 1);
 
   try {
     const data = await User.aggregate([

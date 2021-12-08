@@ -58,7 +58,8 @@ export const login = async (req, res) => {
       { expiresIn: "1d" }
     );
 
-    const { pwd, ...info } = user._doc;
+    const info = user._doc;
+    delete info.password;
     res.status(200).json({ info, token });
   } catch (error) {
     res.status(500).send(error);
