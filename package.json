@@ -20,7 +20,7 @@
     "pm2": "^5.1.2"
   },
   "scripts": {
-    "start": "if [$NODE_ENV == 'production']; then pm2-runtime start ecosystem.config.js --env production; else nodemon app.js; fi"
+    "start": "if [$NODE_ENV == 'production']; then pm2-runtime start ecosystem.config.js --env production; else nodemon index.js; fi"
   },
   "type": "module"
 }
