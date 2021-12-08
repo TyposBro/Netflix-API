@@ -18,12 +18,12 @@ export const getUser = async (req, res) => {
 // UPDATE
 export const updateUser = async (req, res) => {
   if (req.user.id === req.params.id || req.user.isAdmin) {
-    if (req.body.password) {
-      req.body.password = CryptoJS.AES.encrypt(
-        req.body.password,
-        process.env.PRIVATE_KEY
-      ).toString();
-    }
+    // if (req.body.password) {
+    //   req.body.password = CryptoJS.AES.encrypt(
+    //     req.body.password,
+    //     process.env.PRIVATE_KEY
+    //   ).toString();
+    // }
     try {
       const info = await User.findByIdAndUpdate(req.params.id, req.body);
       res.status(200).json(info);
