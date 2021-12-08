@@ -16,10 +16,11 @@
     "joi": "^17.4.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.12",
-    "nodemon": "^2.0.14"
+    "nodemon": "^2.0.14",
+    "pm2": "^5.1.2"
   },
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "if [$NODE_ENV == 'production']; then pm2-runtime start ecosystem.config.js --env production; else nodemon app.js; fi"
   },
   "type": "module"
 }
